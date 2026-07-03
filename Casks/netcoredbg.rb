@@ -9,7 +9,23 @@ cask "netcoredbg" do
 
   depends_on arch: :arm64
 
-  binary "netcoredbg/netcoredbg"
+  installer script: {
+    executable: "/bin/sh",
+    args: [
+      "-c",
+      'mkdir -p "$(brew --prefix)/netcoredbg" && ' \
+      'cp -R "$PWD/netcoredbg/"* "$(brew --prefix)/netcoredbg/" && ' \
+      'chmod +x "$(brew --prefix)/netcoredbg/netcoredbg" && ' \
+      'ln -sf "$(brew --prefix)/netcoredbg/netcoredbg" "$(brew --prefix)/bin/netcoredbg"'
+    ],
+  }
+
+  uninstall_postflight do
+    next unless (prefix = Homebrew::EnvConfig.effective_prefix)
+
+    FileUtils.rm_rf "#{prefix}/netcoredbg"
+    FileUtils.rm_f "#{prefix}/bin/netcoredbg"
+  end
 
   livecheck do
     url "https://github.com/Samsung/netcoredbg/releases/latest"
