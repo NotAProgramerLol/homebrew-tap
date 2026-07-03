@@ -13,6 +13,7 @@ cask "netcoredbg" do
 
   livecheck do
     url "https://github.com/Samsung/netcoredbg/releases/latest"
+    regex(/v?(\d+(?:\.\d+)+(?:-\d+)+)/i)
     strategy :github_latest
   end
 end
