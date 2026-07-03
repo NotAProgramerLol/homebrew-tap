@@ -13,9 +13,9 @@ cask "netcoredbg" do
     executable: "/bin/sh",
     args: [
       "-c",
-      "mkdir -p \"#{HOMEBREW_PREFIX}/netcoredbg\" && " \
-      "cp -R \"#{staged_path}/netcoredbg/\"* \"#{HOMEBREW_PREFIX}/netcoredbg/\" && " \
-      "chmod +x \"#{HOMEBREW_PREFIX}/netcoredbg/netcoredbg\"",
+      'mkdir -p "#{HOMEBREW_PREFIX}/netcoredbg" && ' \
+      'cp -R "#{staged_path}/netcoredbg/"* "#{HOMEBREW_PREFIX}/netcoredbg/" && ' \
+      'chmod +x "#{HOMEBREW_PREFIX}/netcoredbg/netcoredbg"',
     ],
   }
 
@@ -27,19 +27,7 @@ cask "netcoredbg" do
     SH
     File.write("#{HOMEBREW_PREFIX}/bin/netcoredbg", wrapper)
     FileUtils.chmod("+x", "#{HOMEBREW_PREFIX}/bin/netcoredbg")
-  end  installer script: {
-    executable: "/bin/sh",
-    args: [
-      "-c",
-      "DEST=\"#{HOMEBREW_PREFIX}/netcoredbg\" && " \
-      "BIN=\"#{HOMEBREW_PREFIX}/bin/netcoredbg\" && " \
-      'mkdir -p "$DEST" && ' \
-      "cp -R \"#{staged_path}/netcoredbg/\"* \"$DEST/\" && " \
-      'chmod +x "$DEST/netcoredbg" && ' \
-      'printf "#!/bin/sh\ncd \"%s\" || exit 1\nexec \"%s/netcoredbg\" \"$@\"\n" "$DEST" "$DEST" > "$BIN" && ' \
-      'chmod +x "$BIN"',
-    ],
-  }
+  end
 
   uninstall_postflight do
     FileUtils.rm_rf "#{HOMEBREW_PREFIX}/netcoredbg"
