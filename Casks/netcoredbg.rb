@@ -22,7 +22,6 @@ cask "netcoredbg" do
   postflight do
     wrapper = <<~SH
       #!/bin/sh
-      cd "#{HOMEBREW_PREFIX}/netcoredbg" || exit 1
       exec "#{HOMEBREW_PREFIX}/netcoredbg/netcoredbg" "$@"
     SH
     File.write("#{HOMEBREW_PREFIX}/bin/netcoredbg", wrapper)
