@@ -15,8 +15,29 @@ cask "netcoredbg" do
       "-c",
       "mkdir -p \"#{HOMEBREW_PREFIX}/netcoredbg\" && " \
       "cp -R \"#{staged_path}/netcoredbg/\"* \"#{HOMEBREW_PREFIX}/netcoredbg/\" && " \
-      "chmod +x \"#{HOMEBREW_PREFIX}/netcoredbg/netcoredbg\" && " \
-      "ln -sf \"#{HOMEBREW_PREFIX}/netcoredbg/netcoredbg\" \"#{HOMEBREW_PREFIX}/bin/netcoredbg\"",
+      "chmod +x \"#{HOMEBREW_PREFIX}/netcoredbg/netcoredbg\"",
+    ],
+  }
+
+  postflight do
+    wrapper = <<~SH
+      #!/bin/sh
+      cd "#{HOMEBREW_PREFIX}/netcoredbg" || exit 1
+      exec "#{HOMEBREW_PREFIX}/netcoredbg/netcoredbg" "$@"
+    SH
+    File.write("#{HOMEBREW_PREFIX}/bin/netcoredbg", wrapper)
+    FileUtils.chmod("+x", "#{HOMEBREW_PREFIX}/bin/netcoredbg")
+  end  installer script: {
+    executable: "/bin/sh",
+    args: [
+      "-c",
+      "DEST=\"#{HOMEBREW_PREFIX}/netcoredbg\" && " \
+      "BIN=\"#{HOMEBREW_PREFIX}/bin/netcoredbg\" && " \
+      'mkdir -p "$DEST" && ' \
+      "cp -R \"#{staged_path}/netcoredbg/\"* \"$DEST/\" && " \
+      'chmod +x "$DEST/netcoredbg" && ' \
+      'printf "#!/bin/sh\ncd \"%s\" || exit 1\nexec \"%s/netcoredbg\" \"$@\"\n" "$DEST" "$DEST" > "$BIN" && ' \
+      'chmod +x "$BIN"',
     ],
   }
 
