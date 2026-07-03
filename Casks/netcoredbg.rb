@@ -13,18 +13,16 @@ cask "netcoredbg" do
     executable: "/bin/sh",
     args: [
       "-c",
-      'mkdir -p "$(brew --prefix)/netcoredbg" && ' \
-      'cp -R "$PWD/netcoredbg/"* "$(brew --prefix)/netcoredbg/" && ' \
-      'chmod +x "$(brew --prefix)/netcoredbg/netcoredbg" && ' \
-      'ln -sf "$(brew --prefix)/netcoredbg/netcoredbg" "$(brew --prefix)/bin/netcoredbg"'
+      "mkdir -p \"#{HOMEBREW_PREFIX}/netcoredbg\" && " \
+      "cp -R \"#{staged_path}/netcoredbg/\"* \"#{HOMEBREW_PREFIX}/netcoredbg/\" && " \
+      "chmod +x \"#{HOMEBREW_PREFIX}/netcoredbg/netcoredbg\" && " \
+      "ln -sf \"#{HOMEBREW_PREFIX}/netcoredbg/netcoredbg\" \"#{HOMEBREW_PREFIX}/bin/netcoredbg\"",
     ],
   }
 
   uninstall_postflight do
-    next unless (prefix = Homebrew::EnvConfig.effective_prefix)
-
-    FileUtils.rm_rf "#{prefix}/netcoredbg"
-    FileUtils.rm_f "#{prefix}/bin/netcoredbg"
+    FileUtils.rm_rf "#{HOMEBREW_PREFIX}/netcoredbg"
+    FileUtils.rm_f "#{HOMEBREW_PREFIX}/bin/netcoredbg"
   end
 
   livecheck do
