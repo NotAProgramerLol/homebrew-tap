@@ -13,9 +13,9 @@ cask "netcoredbg" do
     executable: "/bin/sh",
     args: [
       "-c",
-      'mkdir -p "#{HOMEBREW_PREFIX}/netcoredbg" && ' \
-      'cp -R "#{staged_path}/netcoredbg/"* "#{HOMEBREW_PREFIX}/netcoredbg/" && ' \
-      'chmod +x "#{HOMEBREW_PREFIX}/netcoredbg/netcoredbg"',
+      "mkdir -p \"#{HOMEBREW_PREFIX}/netcoredbg\" && " \
+      "cp -R \"#{staged_path}/netcoredbg/\"* \"#{HOMEBREW_PREFIX}/netcoredbg/\" && " \
+      "chmod +x \"#{HOMEBREW_PREFIX}/netcoredbg/netcoredbg\"",
     ],
   }
 
